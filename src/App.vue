@@ -2,47 +2,27 @@
   <div class="container py-3">
     <div class="border border-dark rounded p-3">
       <div class="row g-3">
-        <div class="col-12 col-lg-8">
-          <div class="d-flex flex-column justify-content-between mb-3">
-            <h1 class="fw-bold display-3">This is a VueNotePad</h1>
-            <button
-              class="btn btn-secondary align-self-end"
-              @click="addNewNote"
-            >
-              <i class="fa-solid fa-plus me-1"></i>New
-            </button>
+        <div class="col-12 col-lg-8 position-relative">
+          <h1 class="fw-bold display-3 font-Agbalumo">This is a VueNotePad</h1>
+          <NoteEditor
+            :noteList="noteList"
+            @addNewNote="addNewNote"
+            @toastAlert="toastAlert"
+          ></NoteEditor>
+          <div
+            ref="alertBox"
+            class="position-absolute bottom-0 start-50 translate-middle border shadow py-2 px-3 rounded text-success d-none"
+          >
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="fw-bold ms-1">Your note has saved.</span>
           </div>
-          <textarea
-            class="form-control"
-            rows="15"
-            v-for="(note, index) in noteList"
-            v-show="note.isShowed"
-            v-model="note.content"
-            :key="index"
-            ref="textarea"
-            placeholder="type here..."
-          ></textarea>
         </div>
         <div class="col-12 col-lg-4">
-          <ul class="list-unstyled">
-            <li
-              class="border rounded px-2 py-1 mb-2"
-              v-for="(item, index) in noteList"
-              :key="index"
-            >
-              <div class="d-flex justify-content-between align-items-center">
-                <p class="mb-0 text-secondary">{{ item.content }}</p>
-                <div class="d-flex gap-1">
-                  <button class="btn" @click="selectedNote(index)">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button class="btn" @click="deleteNote(index)">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
-              </div>
-            </li>
-          </ul>
+          <NoteList
+            :noteList="noteList"
+            @selectedNote="selectedNote"
+            @deletedNote="deleteNote"
+          ></NoteList>
         </div>
       </div>
     </div>
@@ -50,17 +30,18 @@
 </template>
 
 <script>
-import autosize from "autosize";
+import NoteEditor from "./components/NoteEditor.vue";
+import NoteList from "./components/NoteList.vue";
+
 export default {
+  name: "App",
+  components: {
+    NoteEditor,
+    NoteList,
+  },
   data() {
     return {
-      content: "",
-      noteList: [
-        {
-          content: "",
-          isShowed: true,
-        },
-      ],
+      noteList: [],
     };
   },
   methods: {
@@ -87,6 +68,7 @@ export default {
       if (del_confirmed) {
         const noteLength = this.noteList.length;
         if (noteLength == 1) {
+          if (this.noteList[idx].content == "") return;
           this.noteList.splice(idx, 1);
           this.addNewNote();
         } else {
@@ -96,10 +78,20 @@ export default {
         }
       } else return;
     },
+    toastAlert() {
+      const alertBox = this.$refs.alertBox;
+      setTimeout(() => {
+        alertBox.classList.remove("d-none");
+
+        setTimeout(() => {
+          alertBox.classList.add("d-none");
+        }, 1800);
+      }, 1000);
+    },
     loadLocalStorage() {
       localStorage.getItem("noteStorage")
         ? (this.noteList = JSON.parse(localStorage.getItem("noteStorage")))
-        : this.addNewNote();
+        : (this.noteList = []);
     },
   },
   watch: {
@@ -111,9 +103,20 @@ export default {
     },
   },
   mounted() {
-    autosize(this.$refs.textarea), this.loadLocalStorage();
+    this.loadLocalStorage();
   },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import url("https://fonts.googleapis.com/css2?family=Agbalumo&display=swap");
+.font-Agbalumo {
+  font-family: "Agbalumo", system-ui;
+}
+.note-item {
+  &:hover {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+}
+</style>
