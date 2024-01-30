@@ -21,7 +21,7 @@
           <NoteList
             :noteList="noteList"
             @selectedNote="selectedNote"
-            @deletedNote="deleteNote"
+            @deleteNote="deleteNote"
           ></NoteList>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default {
       this.content = "";
     },
     closeAllNotes() {
-      this.noteList.map((item) => {
+      this.noteList.forEach((item) => {
         item.isShowed = false;
       });
     },
@@ -67,6 +67,7 @@ export default {
       const del_confirmed = confirm("確認要刪除這則筆記？");
       if (del_confirmed) {
         const noteLength = this.noteList.length;
+
         if (noteLength == 1) {
           if (this.noteList[idx].content == "") return;
           this.noteList.splice(idx, 1);
@@ -85,8 +86,8 @@ export default {
 
         setTimeout(() => {
           alertBox.classList.add("d-none");
-        }, 1800);
-      }, 1000);
+        }, 2000);
+      }, 1500);
     },
     loadLocalStorage() {
       localStorage.getItem("noteStorage")
@@ -96,7 +97,7 @@ export default {
   },
   watch: {
     noteList: {
-      handler() {
+      handler: function () {
         localStorage.setItem("noteStorage", JSON.stringify(this.noteList));
       },
       deep: true,
@@ -112,11 +113,5 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Agbalumo&display=swap");
 .font-Agbalumo {
   font-family: "Agbalumo", system-ui;
-}
-.note-item {
-  &:hover {
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-      rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  }
 }
 </style>
