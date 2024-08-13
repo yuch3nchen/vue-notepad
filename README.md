@@ -13,6 +13,10 @@ VueNotePad is a simple yet powerful web-based note-taking application built with
 
 <img src="screenshots/app-screenshot.png" alt="VueNotePad Screenshot" width="600"/>
 
+## Live Demo
+
+[Try VueNotepad](https://yuch3nchen.github.io/vue2-notepad/)
+
 ## Technology Stack
 
 - Vue.js 2
