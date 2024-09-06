@@ -23,7 +23,7 @@ git commit -m 'deploy'
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
 
 # 除此之外，也可以改走 HTTPS 模式
-git push -f https://github.com/yuch3nchen/vue2-notepad.git main:gh-pages
+git push -f https://github.com/yuch3nchen/vue-notepad.git main:gh-pages
 
 cd -
 
