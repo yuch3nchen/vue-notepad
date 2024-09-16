@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-3">
+  <div class="container position-absolute top-50 start-50 translate-middle">
     <div class="border border-dark rounded p-3">
       <div class="row g-3">
         <div class="col-12 col-lg-8 position-relative">
