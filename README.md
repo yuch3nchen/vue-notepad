@@ -24,7 +24,7 @@ VueNotePad is a simple yet powerful web-based note-taking application built with
 
 ## Live Demo
 
-[Try VueNotepad](https://yuch3nchen.github.io/vue2-notepad/)
+[Try VueNotepad](https://yuch3nchen.github.io/vue-notepad/)
 
 ## Technology Stack
 
